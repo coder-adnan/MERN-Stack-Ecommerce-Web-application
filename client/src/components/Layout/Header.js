@@ -48,8 +48,14 @@ const Header = () => {
             >
               <BsList size={24} />
             </button>
-            <Link to="/" className="text-2xl font-bold text-black">
-              🛒 Ecommerce App
+            <Link
+              to="/"
+              style={{
+                width: "18em",
+              }}
+              className="font-bold text-black"
+            >
+              <img src="http://localhost:3000/assets/logo.png" alt="" />
             </Link>
           </div>
           <ul

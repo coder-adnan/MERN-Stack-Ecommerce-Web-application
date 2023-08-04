@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
@@ -14,8 +14,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { NextArrow } from "../components/NextArrow";
-
+import { salesSlider } from "../components/salesSlider/salesSlider";
+import { categoriesData } from "../components/categoriesData/categoriesImgs";
 const HomePage = () => {
+  let categoriesIndex = 0;
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
@@ -25,7 +27,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
+  const [isHovered, setIsHovered] = useState(false);
   //get all cat
   const getAllCategory = async () => {
     try {
@@ -59,7 +61,7 @@ const HomePage = () => {
     }
   };
 
-  //getTOtal COunt
+  //getTotal Count
   const getTotal = async () => {
     try {
       const { data } = await axios.get(
@@ -108,7 +110,7 @@ const HomePage = () => {
     if (checked.length || radio.length) filterProduct();
   }, [checked, radio]);
 
-  //get filterd product
+  //get filtered product
   const filterProduct = async () => {
     try {
       const { data } = await axios.post(
@@ -122,6 +124,14 @@ const HomePage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  //setting girls category section visibility
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
   return (
     <Layout title={"Home - Best offers "}>
@@ -177,7 +187,7 @@ const HomePage = () => {
         </div>
 
         {/* Reset filters ending */}
-        <div className="col-md-9 bg-slate-100">
+        <div className="deals-container col-md-9 bg-slate-100">
           <h1 className="text-center my-5">
             <span className="text-4xl text-red-500 font-sans font-bold">
               Today's Hot
@@ -265,14 +275,146 @@ const HomePage = () => {
             )}
           </div>
         </div>
+        <div className="my-7 flex align-center justify-center text-center">
+          <h1
+            style={{ fontFamily: "Verdana" }}
+            className="text-4xl text-black relative inline-flex items-center"
+          >
+            <span className="translate-y-1 w-28 border-b-2 border-y-gray-400"></span>
+            <span className="px-4">More To Love</span>
+            <span className="translate-y-1 w-28 border-b-2 border-gray-400"></span>
+          </h1>
+        </div>
+
         {/* banner image */}
-        <img
-          src="http://localhost:3000/assets/banner1.jpg"
-          className="banner-img"
-          alt="bannerimage"
-          width={"100%"}
-        />
-        {/* banner image */}
+        <Slider
+          dots={false}
+          infinite={true}
+          slidesToShow={1}
+          slidesToScroll={1}
+          autoplay={true}
+          pauseOnHover={false}
+          autoplaySpeed={2000}
+          fade={true}
+          nextArrow={<NextArrow />}
+          className="sales-slider flex justify-center align-items-center hover:cursor-pointer"
+        >
+          {/* banner images */}
+          {salesSlider.map(s => {
+            return (
+              <img
+                key={s.id}
+                src={s.image}
+                className="banner-img shadow-lg"
+                alt={`Slide ${s.id}`}
+                style={{
+                  width: "100vw !important",
+                }}
+              />
+            );
+          })}
+          {/* banner images */}
+        </Slider>
+        {/* displaying categories start */}
+        <h1 style={{ fontFamily: "serif" }} className=" mt-4 text-center">
+          <span className="text-black text-5xl">Explore</span>
+          <span className="text-red-500 text-2xl"> - all categories...!</span>
+        </h1>
+        <div className="flex flex-wrap justify-center">
+          {categories.map((category, index) => (
+            <>
+              <div className="w-60 p-4">
+                <div className="hover:cursor-pointer hover:scale-110 relative overflow-hidden">
+                  {/* border-black-300 border-2 border-solid */}
+                  <Link to={`/category/${category.slug}`}>
+                    <img
+                      className=" object-cover w-full h-48 rounded-md"
+                      src={categoriesData[index].image}
+                      alt={category.name}
+                    />
+                    <h1
+                      style={{
+                        fontFamily: "sans-serif",
+                        fontSize: ".8em",
+                        marginTop: ".5em",
+                      }}
+                      className="text-black text-center"
+                    >
+                      {category.name}
+                    </h1>
+                  </Link>
+                </div>
+              </div>
+            </>
+          ))}
+        </div>
+        {/* displaying categories end */}
+        {/* displaying kitchen category categories end */}
+        <div className="girlsCategory-container flex justify-center align-content-center">
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="left-container"
+          >
+            <h1 className={`${isHovered ? "visible" : "hidden"}`}>
+              Girls Collections
+            </h1>
+            <img
+              className="w-full"
+              src="http://localhost:3000/assets/girlscategory.jpg"
+              alt="Girls category"
+            />
+          </div>
+          <div className="right-container">
+            {products
+              .filter(c => c.category === "64bababb2e22bedaaa5258b0")
+              .map(c => (
+                <>
+                  <img
+                    key={c._id}
+                    className=""
+                    src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${c._id}`}
+                    alt={c.name}
+                  />
+                  <div className="card-body">
+                    <div className="card-name-price">
+                      <h5 className="card-title">{c.name}</h5>
+                      <h5 className="card-title card-price">
+                        {c.price.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </h5>
+                    </div>
+                    <p className="card-text">
+                      {c.description.substring(0, 60)}...
+                    </p>
+                    <div className="card-actions">
+                      <button
+                        className="btn btn-info ms-1"
+                        onClick={() => navigate(`/product/${c.slug}`)}
+                      >
+                        More Details
+                      </button>
+                      <button
+                        className="btn btn-dark ms-1"
+                        onClick={() => {
+                          setCart([...cart, c]);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify([...cart, c])
+                          );
+                          toast.success("Item Added to Cart");
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );
