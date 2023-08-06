@@ -1,0 +1,42 @@
+.slider {
+  width: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: all 0.5s ease;
+}
+
+.current {
+  opacity: 1;
+  transform: translateX(0);
+}
+.arrow {
+  border: 2px solid blueviolet;
+  background-color: transparent;
+  color: blueviolet;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  position: absolute;
+  transform: translateY(50%);
+  z-index: 10;
+}
+.arrow:hover {
+  background-color: #fff;
+  color: #777;
+}
+
+.next {
+  top: 50%;
+  right: 1rem;
+}
+.prev {
+  top: 50%;
+  left: 1rem;
+}

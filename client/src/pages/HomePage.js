@@ -16,8 +16,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { NextArrow } from "../components/NextArrow";
 import { salesSlider } from "../components/salesSlider/salesSlider";
 import { categoriesData } from "../components/categoriesData/categoriesImgs";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import TestimonialsSlider from "../components/testimonials/TestimonialsSlider";
 const HomePage = () => {
-  let categoriesIndex = 0;
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
@@ -129,6 +130,37 @@ const HomePage = () => {
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
+  // slider settings
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    pauseOnHover: false,
+    autoplaySpeed: 2000,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 1024, // Medium-sized devices and above
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768, // Small devices (tablets)
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 680, // Smaller devices (phones)
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
@@ -196,17 +228,7 @@ const HomePage = () => {
             <span className="text-2xl">...</span>
           </h1>
           {/* <div className="d-flex flex-wrap"> */}
-          <Slider
-            dots={false}
-            infinite={true}
-            slidesToShow={3}
-            slidesToScroll={1}
-            autoplay={true}
-            pauseOnHover={false}
-            autoplaySpeed={2000}
-            nextArrow={<NextArrow />}
-            className="flex flex-wrap"
-          >
+          <Slider {...settings} className="flex flex-wrap products-slider">
             {products?.map(p => (
               <div className="hover:cursor-pointer card  my-2" key={p._id}>
                 <img
@@ -216,7 +238,7 @@ const HomePage = () => {
                 />
                 <div className="card-body">
                   <div className="card-name-price">
-                    <h5 className="card-title">{p.name}</h5>
+                    <h5 className="card-title">{p.name.substring(0, 20)}...</h5>
                     <h5 className="card-title card-price">
                       {p.price.toLocaleString("en-US", {
                         style: "currency",
@@ -225,7 +247,7 @@ const HomePage = () => {
                     </h5>
                   </div>
                   <p className="card-text">
-                    {p.description.substring(0, 60)}...
+                    {p.description.substring(0, 30)}...
                   </p>
                   <div className="card-actions">
                     <button
@@ -254,7 +276,9 @@ const HomePage = () => {
           </Slider>
           {/* </div> */}
 
-          <div className="m-2 p-3">
+          {/* Loadmore products */}
+
+          {/* <div className="m-2 p-3">
             {products && products.length < total && (
               <button
                 className="btn loadmore"
@@ -273,7 +297,7 @@ const HomePage = () => {
                 )}
               </button>
             )}
-          </div>
+          </div> */}
         </div>
         <div className="my-7 flex align-center justify-center text-center">
           <h1
@@ -324,11 +348,11 @@ const HomePage = () => {
           {categories.map((category, index) => (
             <>
               <div className="w-60 p-4">
-                <div className="hover:cursor-pointer hover:scale-110 relative overflow-hidden">
+                <div className="shadow-md rounded-md hover:cursor-pointer  hover:scale-110 relative overflow-hidden">
                   {/* border-black-300 border-2 border-solid */}
                   <Link to={`/category/${category.slug}`}>
                     <img
-                      className=" object-cover w-full h-48 rounded-md"
+                      className="object-cover w-full h-48 rounded-md"
                       src={categoriesData[index].image}
                       alt={category.name}
                     />
@@ -349,8 +373,18 @@ const HomePage = () => {
           ))}
         </div>
         {/* displaying categories end */}
-        {/* displaying kitchen category categories end */}
-        <div className="girlsCategory-container flex justify-center align-content-center">
+        {/* displaying girls category categories Starting*/}
+        <h1
+          style={{
+            fontFamily: "serif",
+            fontSize: "3em",
+          }}
+          className="bg-slate-100 py-10 text-center"
+        >
+          <span className="text-black">Unleashing the best</span>
+          <span className="text-red-600 text-6xl"> offers...</span>
+        </h1>
+        <div className="bg-slate-100 pt-2 girlsCategory-container flex justify-center align-content-center">
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -360,7 +394,7 @@ const HomePage = () => {
               Girls Collections
             </h1>
             <img
-              className="w-full"
+              className="mt-2 w-full"
               src="http://localhost:3000/assets/girlscategory.jpg"
               alt="Girls category"
             />
@@ -368,36 +402,39 @@ const HomePage = () => {
           <div className="right-container">
             {products
               .filter(c => c.category === "64bababb2e22bedaaa5258b0")
+              .slice(0, 9)
               .map(c => (
-                <>
+                <div
+                  className="bg-slate-400 mr-2 w-44 flex flex-col items-center justify-center hover:cursor-pointer girlsCategory-card pt-2 my-2"
+                  key={c._id}
+                >
                   <img
                     key={c._id}
-                    className=""
+                    className="rounded-lg h-48 w-40"
                     src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${c._id}`}
                     alt={c.name}
                   />
                   <div className="card-body">
-                    <div className="card-name-price">
-                      <h5 className="card-title">{c.name}</h5>
-                      <h5 className="card-title card-price">
+                    <div className="ml-4 card-name-price">
+                      <h5 className="text-sm card-title">
+                        {c.name.substring(0, 6)}...
+                      </h5>
+                      <h5 className="mr-4 card-title card-price">
                         {c.price.toLocaleString("en-US", {
                           style: "currency",
                           currency: "USD",
                         })}
                       </h5>
                     </div>
-                    <p className="card-text">
-                      {c.description.substring(0, 60)}...
-                    </p>
-                    <div className="card-actions">
+                    <div className="card-btn flex flex-col justify-center">
                       <button
-                        className="btn btn-info ms-1"
+                        className="read-more-btn hover:border-solid hover:border-1 hover:border-black btn-width bg-black text-white btn ms-1"
                         onClick={() => navigate(`/product/${c.slug}`)}
                       >
-                        More Details
+                        Read More
                       </button>
                       <button
-                        className="btn btn-dark ms-1"
+                        className="hover:border-solid hover:border-1 hover:border-black bg-sky-500 mt-1 btn-width btn ms-1"
                         onClick={() => {
                           setCart([...cart, c]);
                           localStorage.setItem(
@@ -407,13 +444,56 @@ const HomePage = () => {
                           toast.success("Item Added to Cart");
                         }}
                       >
-                        Add to Cart
+                        All to cart <AddShoppingCartIcon fontSize="small" />
                       </button>
                     </div>
                   </div>
-                </>
+                </div>
               ))}
           </div>
+        </div>
+        {/* displaying girls category categories end*/}
+        {/* displaying some products*/}
+        <div className="col-span-9">
+          <h1
+            style={{ fontFamily: "Verdana" }}
+            className="my-16 ml-36 text-4xl text-black relative inline-flex items-center"
+          >
+            <span className="translate-y-1 w-28 border-b-2 border-y-gray-400"></span>
+            <span className="px-4">New Arrivals</span>
+            <span className="translate-y-1 w-28 border-b-2 border-gray-400"></span>
+          </h1>
+          <div className="flex gap-2 mb-16 flex-wrap justify-center">
+            {products?.map(p => (
+              <Link
+                key={p._id}
+                to={`/dashboard/admin/product/${p.slug}`}
+                className="product-link"
+              >
+                <div className="group h-52 ml-2 w-60 my-16 mb-28">
+                  <img
+                    src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
+                    className="h-36 card-img-top transition-transform transform group-hover:scale-125"
+                    alt={p.name}
+                  />
+                  <div className="card-body">
+                    <div className="flex flex-col gap-2 align-items-center">
+                      <h5 className="w-40 rounded-md text-lg text-center bg-orange-200 card-title">
+                        {p.name.substring(0, 15)}
+                      </h5>
+                      <p className="text-center card-text mb-3">
+                        {p.description.substring(0, 25)}...
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+        {/* displaying the testimonials */}
+        <div className="bg-gray-100 py-10 ml-6 mt-16">
+          <TestimonialsSlider />
         </div>
       </div>
     </Layout>

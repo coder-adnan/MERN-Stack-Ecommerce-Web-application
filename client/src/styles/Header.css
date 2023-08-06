@@ -1,0 +1,13 @@
+@media only screen and (max-width: 900px) {
+  .custom-responsiveness-header {
+    display: none;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .custom-responsiveness-header {
+    display: none;
+  }
+}
+@media only screen and (max-width: 425px) {
+  /*Small smartphones [325px -> 425px]*/
+}

@@ -85,32 +85,44 @@ filters
   font-size: 20px !important;
 }
 /* ==================
+products slider
+============== */
+.products-slider {
+  display: flex;
+  flex-wrap: wrap;
+}
+/* ==================
 sales Slider
 ============== */
 .sales-slider {
   margin: -3.5rem 0 0 0;
   width: 100vw;
 }
-
-/* ==================
-sales Slider
-============== */
 .sales-slider {
   transform: translateX(1%);
 }
+
+/* ==================
 /* ==================
 girlsCategory-container
 ============== */
 .girlsCategory-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin-left: 2%;
   gap: 1em;
+  margin-top: -2em;
+}
+@media screen and (max-width: 900px) {
+  .girlsCategory-container {
+    width: 100vw;
+    flex-wrap: wrap;
+  }
 }
 .left-container {
-  width: 30vw;
+  width: 40vw;
   position: relative;
+  flex-wrap: wrap;
 }
 .left-container h1 {
   color: white;
@@ -123,6 +135,19 @@ girlsCategory-container
   font-size: 1.5em;
   animation: slideIn 0.3s ease-in-out;
 }
+@media screen and (max-width: 600px) {
+  .left-container img {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 900px) {
+  .left-container {
+    width: 100%;
+  }
+  .right-container {
+    width: 100%;
+  }
+}
 @keyframes slideIn {
   0% {
     left: 0;
@@ -132,12 +157,24 @@ girlsCategory-container
   }
 }
 .right-container {
-  width: 70vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: center;
+  width: 60vw;
+}
+.right-container .read-more-btn:hover {
+  background-color: transparent !important;
+  color: black !important;
+  transition: 0.3s ease all !important;
 }
 .left-container img:hover {
   filter: brightness(50%) !important;
   transition: 0.2s ease all;
   cursor: pointer;
+}
+.left-container img {
+  height: 88%;
 }
 .visible {
   visibility: visible;
@@ -145,4 +182,97 @@ girlsCategory-container
 
 .hidden {
   visibility: hidden;
+}
+
+/* girls category card */
+.home-page .girlsCategory-card {
+  background-color: rgba(128, 128, 128, 0.097);
+  border-radius: 10px;
+  height: 19rem;
+}
+/* responsiveness  */
+@media screen and (max-width: 900px) {
+  .home-page .girlsCategory-card {
+    height: 18rem;
+    width: 45%;
+  }
+  .girlsCategory-card .card-name-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -1em;
+    margin-bottom: 0.5em;
+  }
+  .girlsCategory-card .card-name-price:first-child {
+    text-align: center;
+  }
+  .girlsCategory-card .card-name-price h5:nth-child(2) {
+    position: relative;
+    text-align: center;
+  }
+  .home-page .girlsCategory-card img {
+    /* height: 20rem; */
+    width: 100%;
+    margin-top: -1.5em;
+  }
+  .home-page .girlsCategory-card .card-btn {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .home-page .girlsCategory-card .card-btn button {
+    width: 100%;
+    font-size: 0.7em;
+  }
+}
+@media screen and (max-width: 700px) {
+  .home-page .girlsCategory-card {
+    height: 20rem;
+    width: 100%;
+  }
+  .girlsCategory-card .card-name-price {
+    top: -3em;
+  }
+  .girlsCategory-card .card-name-price:first-child {
+    position: relative;
+    left: 0;
+  }
+  .girlsCategory-card .card-name-price h5:nth-child(2) {
+    position: relative;
+    right: 0;
+  }
+  .home-page .girlsCategory-card img {
+    height: 18rem;
+    width: 100%;
+  }
+  .home-page .girlsCategory-card .card-btn {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: -2em;
+  }
+  .home-page .girlsCategory-card .card-btn button {
+    width: 10em;
+  }
+}
+
+.home-page .girlsCategory-card img:hover {
+  transform: scale(0.9);
+}
+.home-page .btn-width {
+  width: 11.5vw;
+  border-radius: 10px;
+  position: relative;
+  left: -0.2em;
+}
+/* ---------------------- */
+/* Featured products */
+.home-page .featured-card {
+  background-color: rgba(128, 128, 128, 0.097);
+  width: 15rem;
+  border-radius: 10px;
+}
+
+.home-page .featured-card .card-img-top {
+  height: 200px !important;
 }

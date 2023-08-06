@@ -50,8 +50,14 @@ const Slider = () => {
               <div>
                 <img src={slide.image} alt="slide" className="image" />
                 <img src={slide.product} alt="slide" className="product" />
-                <div className="content">
-                  <h2>{slide.heading}</h2>
+                <div
+                  className={
+                    index === 1
+                      ? "slide2-content text-justify"
+                      : "text-justify content"
+                  }
+                >
+                  <h2 className="text-5xl">{slide.heading}</h2>
                   <p>{slide.desc}</p>
                   <hr />
                   <button

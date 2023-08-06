@@ -40,18 +40,30 @@ const Products = () => {
                 to={`/dashboard/admin/product/${p.slug}`}
                 className="product-link"
               >
-                <div className="card m-2">
+                <div
+                  style={{
+                    height: "50vh",
+                  }}
+                  className="card m-2"
+                >
                   <img
                     src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                    className="card-img-top"
+                    className="w-64 card-img-top pl-9"
                     alt={p.name}
                   />
-                  <div className="card-body">
-                    <div className="card-name-price">
+                  {/* <div className="card-body">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        textAlign: "center",
+                      }}
+                      className="card-name-price "
+                    >
                       <h5 className="card-title">{p.name}</h5>
                       <p className="card-text">{p.description}</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             ))}

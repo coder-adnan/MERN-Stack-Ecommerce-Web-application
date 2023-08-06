@@ -73,7 +73,7 @@ const UpdateProduct = () => {
       photo && productData.append("photo", photo);
       productData.append("category", category);
       const { data } = axios.put(
-        `/api/v1/product/update-product/${id}`,
+        `${process.env.REACT_APP_API}/api/v1/product/update-product/${id}`,
         productData
       );
       if (data?.success) {
@@ -91,12 +91,14 @@ const UpdateProduct = () => {
   //delete a product
   const handleDelete = async () => {
     try {
-      let answer = window.prompt("Are you sure want to delete this product ? ");
+      let answer = window.confirm(
+        "Are you sure want to delete this product ? "
+      );
       if (!answer) return;
       const { data } = await axios.delete(
-        `/api/v1/product/delete-product/${id}`
+        `${process.env.REACT_APP_API}/api/v1/product/delete-product/${id}`
       );
-      toast.success("Product DEleted Succfully");
+      toast.success("Product Deleted Successfully");
       navigate("/dashboard/admin/products");
     } catch (error) {
       console.log(error);
@@ -155,7 +157,7 @@ const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={`/api/v1/product/product-photo/${id}`}
+                      src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${id}`}
                       alt="product_photo"
                       height={"200px"}
                       className="img img-responsive"

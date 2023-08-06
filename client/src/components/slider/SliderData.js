@@ -2,19 +2,19 @@ export const SliderData = [
   {
     image: "http://localhost:3000/assets/3.png",
     product: "http://localhost:3000/assets/4.png",
-    heading: "Slide One",
-    desc: "This is the description of slide one Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quos quas, voluptatum nesciunt illum exercitationem.",
+    heading: "Watches",
+    desc: "Explore a curated collection of exquisite watches for every occasion. Find your perfect timepiece and embrace the essence of sophistication and functionality. Shop our stunning watch collection now.",
   },
   {
     image: "http://localhost:3000/assets/1.png",
     product: "http://localhost:3000/assets/2.png",
-    heading: "Slide Two",
-    desc: "This is the description of slide two Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quos quas, voluptatum nesciunt illum exercitationem.",
+    heading: "Computer Hardwares",
+    desc: "Dive into the realm of computer electronics, where innovation meets performance. Unleash the power of the latest gadgets, laptops, and accessories that redefine the way you work, play, and connect.",
   },
   {
     image: "http://localhost:3000/assets/5.png",
-    product: "http://localhost:3000/assets/4.png",
-    heading: "Slide Three",
-    desc: "This is the description of slide three Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quos quas, voluptatum nesciunt illum exercitationem.",
+    product: "http://localhost:3000/assets/6.jpg",
+    heading: "Smartphones",
+    desc: "Unlock the world of seamless connectivity and cutting-edge technology with our extensive collection of smartphones. Indulge in the latest flagship models, premium build materials that exude sophistication and style.",
   },
 ];
