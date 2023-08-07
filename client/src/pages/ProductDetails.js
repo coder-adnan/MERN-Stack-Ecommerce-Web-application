@@ -50,8 +50,10 @@ const ProductDetails = () => {
           />
         </div>
         <div className="col-md-6 product-details-info">
-          <h1 className="text-center">Product Details</h1>
-          <hr />
+          <h1 className="text-center text-2xl">Product Details</h1>
+          <div className="flex justify-center my-8">
+            <hr />
+          </div>
           <h6>Name : {product.name}</h6>
           <h6>Description : {product.description}</h6>
           <h6>
@@ -75,7 +77,7 @@ const ProductDetails = () => {
           {relatedProducts?.map(p => (
             <div className="card m-2" key={p._id}>
               <img
-                src={`/api/v1/product/product-photo/${p._id}`}
+                src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
                 className="card-img-top"
                 alt={p.name}
               />

@@ -121,7 +121,7 @@ const CreateCategory = () => {
                         <td key={c._id}>{c.name}</td>
                         <td>
                           <button
-                            className="btn btn-primary ms-2"
+                            className=" btn btn-primary ms-2"
                             onClick={() => {
                               setVisible(true);
                               setUpdatedName(c.name);

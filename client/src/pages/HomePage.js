@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
@@ -22,6 +22,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
+  const [entireProducts, setEntireProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
@@ -29,6 +30,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const targetDivRef = useRef(null);
   //get all cat
   const getAllCategory = async () => {
     try {
@@ -46,6 +48,7 @@ const HomePage = () => {
   useEffect(() => {
     getAllCategory();
     getTotal();
+    getEntireProducts();
   }, []);
   //get products
   const getAllProducts = async () => {
@@ -59,6 +62,18 @@ const HomePage = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+    }
+  };
+
+  const getEntireProducts = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API}/api/v1/product/get-product`
+      );
+      setEntireProducts(data.products);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
     }
   };
 
@@ -108,7 +123,10 @@ const HomePage = () => {
   }, [checked.length, radio.length]);
 
   useEffect(() => {
-    if (checked.length || radio.length) filterProduct();
+    if (checked.length || radio.length) {
+      filterProduct();
+      targetDivRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [checked, radio]);
 
   //get filtered product
@@ -212,7 +230,10 @@ const HomePage = () => {
           </div>
 
           <div className="flex flex-col">
-            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+            <button
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+              onClick={() => window.location.reload(true)}
+            >
               RESET FILTERS
             </button>
           </div>
@@ -229,7 +250,7 @@ const HomePage = () => {
           </h1>
           {/* <div className="d-flex flex-wrap"> */}
           <Slider {...settings} className="flex flex-wrap products-slider">
-            {products?.map(p => (
+            {entireProducts?.map(p => (
               <div className="hover:cursor-pointer card  my-2" key={p._id}>
                 <img
                   src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
@@ -275,29 +296,6 @@ const HomePage = () => {
             ))}
           </Slider>
           {/* </div> */}
-
-          {/* Loadmore products */}
-
-          {/* <div className="m-2 p-3">
-            {products && products.length < total && (
-              <button
-                className="btn loadmore"
-                onClick={e => {
-                  e.preventDefault();
-                  setPage(page + 1);
-                }}
-              >
-                {loading ? (
-                  "Loading ..."
-                ) : (
-                  <>
-                    {" "}
-                    Loadmore <AiOutlineReload />
-                  </>
-                )}
-              </button>
-            )}
-          </div> */}
         </div>
         <div className="my-7 flex align-center justify-center text-center">
           <h1
@@ -393,16 +391,19 @@ const HomePage = () => {
             <h1 className={`${isHovered ? "visible" : "hidden"}`}>
               Girls Collections
             </h1>
-            <img
-              className="mt-2 w-full"
-              src="http://localhost:3000/assets/girlscategory.jpg"
-              alt="Girls category"
-            />
+            <Link to={"/category/girls-collection"}>
+              <img
+                className="mt-2 w-full"
+                src="http://localhost:3000/assets/girlscategory.jpg"
+                alt="Girls category"
+              />
+            </Link>
           </div>
+          {console.log(entireProducts)}
           <div className="right-container">
-            {products
-              .filter(c => c.category === "64bababb2e22bedaaa5258b0")
-              .slice(0, 9)
+            {entireProducts
+              .filter(c => c.category._id === "64bababb2e22bedaaa5258b0")
+              .slice(0, 8)
               .map(c => (
                 <div
                   className="bg-slate-400 mr-2 w-44 flex flex-col items-center justify-center hover:cursor-pointer girlsCategory-card pt-2 my-2"
@@ -454,7 +455,7 @@ const HomePage = () => {
         </div>
         {/* displaying girls category categories end*/}
         {/* displaying some products*/}
-        <div className="col-span-9">
+        <div ref={targetDivRef} className="col-span-9 entireProducts">
           <h1
             style={{ fontFamily: "Verdana" }}
             className="my-16 ml-36 text-4xl text-black relative inline-flex items-center"
@@ -470,15 +471,15 @@ const HomePage = () => {
                 to={`/dashboard/admin/product/${p.slug}`}
                 className="product-link"
               >
-                <div className="group h-52 ml-2 w-60 my-16 mb-28">
+                <div className="group h-52 ml-2 mt-24 w-60 my-16 mb-28 ">
                   <img
                     src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
-                    className="h-36 card-img-top transition-transform transform group-hover:scale-125"
+                    className="h-36 shadow-md p-4 card-img-top transition-transform transform group-hover:scale-110"
                     alt={p.name}
                   />
                   <div className="card-body">
                     <div className="flex flex-col gap-2 align-items-center">
-                      <h5 className="w-40 rounded-md text-lg text-center bg-orange-200 card-title">
+                      <h5 className="mt-4 w-40 rounded-md text-lg text-center bg-orange-200 card-title">
                         {p.name.substring(0, 15)}
                       </h5>
                       <p className="text-center card-text mb-3">
@@ -490,6 +491,34 @@ const HomePage = () => {
               </Link>
             ))}
           </div>
+        </div>
+        {/* Loadmore products */}
+
+        <div className="m-2 p-3">
+          {products && products.length < total && (
+            <button
+              className="btn loadmore"
+              onClick={e => {
+                e.preventDefault();
+                setPage(page + 1);
+              }}
+            >
+              {loading ? (
+                "Loading ..."
+              ) : (
+                <>
+                  <div className="flex justify-center">
+                    <p className="bg-blue-500 w-32 text-white rounded-md">
+                      Loadmore
+                    </p>
+                    <p className="bg-blue-500 w-12 -ml-2 flex align-items-center text-white rounded-md">
+                      <AiOutlineReload />
+                    </p>
+                  </div>
+                </>
+              )}
+            </button>
+          )}
         </div>
         {/* displaying the testimonials */}
         <div className="bg-gray-100 py-10 ml-6 mt-16">

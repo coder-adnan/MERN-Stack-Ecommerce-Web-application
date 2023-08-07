@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
@@ -52,18 +52,20 @@ const Header = () => {
   };
 
   // Function to handle click events on the window
-  const handleWindowClick = event => {
-    // Check if the click was outside the header container
-    if (headerRef.current && !headerRef.current.contains(event.target)) {
-      closeMenus();
-    }
-  };
-
   useEffect(() => {
-    // Add a click event listener to the window
+    const handleWindowClick = event => {
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(event.target) &&
+        !event.target.closest(".dropdown-menu") &&
+        !event.target.closest(".custom-responsiveness-header")
+      ) {
+        closeMenus();
+      }
+    };
+
     window.addEventListener("click", handleWindowClick);
 
-    // Remove the event listener on component unmount
     return () => {
       window.removeEventListener("click", handleWindowClick);
     };

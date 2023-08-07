@@ -10,11 +10,11 @@ const CategoryForm = ({ handleSubmit, value, setValue }) => {
             className="form-control"
             placeholder="Enter new category"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={e => setValue(e.target.value)}
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary text-black">
           Submit
         </button>
       </form>
